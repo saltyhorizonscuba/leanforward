@@ -1,0 +1,50 @@
+# Lean Forward — Tamarindo, Costa Rica
+# Les crawlers IA sont explicitement autorisés (playbook §3) : les bloquer
+# couperait la visibilité du site dans les réponses de ChatGPT, Perplexity,
+# Claude et Gemini.
+
+User-agent: *
+Allow: /
+# Aperçu hors ligne (toutes les pages en un fichier) : ne doit pas être indexé.
+Disallow: /apercu-lean-forward.html
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+Sitemap: https://www.leanforwardsurf.com/sitemap.xml

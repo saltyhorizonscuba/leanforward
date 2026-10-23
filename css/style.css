@@ -1,0 +1,877 @@
+/* ==========================================================================
+   Lean Forward — feuille de style unique
+   Direction : éditorial / graphique — typographie surdimensionnée, photos
+   plein cadre, palette côtière tirée des photos réelles, formes organiques
+   utilisées avec parcimonie. Aucune information factuelle n'est modifiée
+   ici : uniquement la couche visuelle (voir PROJECT_CONTEXT.md/§14).
+   ========================================================================== */
+
+:root {
+  /* Palette — bleu franc demandé (couleur fournie), sur des neutres
+     chauds tirés des photos réelles. */
+  --ink:        #15191b;
+  --ink-soft:   #3a3f3f;
+  --ink-mute:   #6b6f6d;
+  --paper:      #f6f1e7;
+  --paper-deep: #ece3d2;
+  --sand:       #ddceb4;
+  --blue:       #4a78ef;
+  --blue-deep:  #12379e;
+  --blue-light: #becdf4;
+  --white:      #ffffff;
+
+  /* Typographie : Bitter (titres) + Assistant (texte courant) */
+  --display: "Bitter", Georgia, "Times New Roman", serif;
+  --sans:    "Assistant", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Échelle d'espacement */
+  --s1: .5rem;  --s2: 1rem;   --s3: 1.5rem; --s4: 2rem;
+  --s5: 3rem;   --s6: 4.5rem; --s7: 6.5rem;
+
+  --wrap: 1220px;
+  --radius: 4px;
+  --radius-lg: 10px;
+  --shadow: 0 2px 4px rgba(21,25,27,.05), 0 16px 36px rgba(21,25,27,.12);
+  --ease: cubic-bezier(.16,.72,.24,1);
+}
+
+/* --- Reset ---------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+body { overflow-x: clip; }
+a { color: var(--ink); }
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.12;
+  margin: 0 0 var(--s3);
+  letter-spacing: -.005em;
+}
+h1 { font-size: clamp(2.1rem, 4.4vw, 3.5rem); font-weight: 500; letter-spacing: -.01em; }
+h2 { font-size: clamp(1.9rem, 3.8vw, 3rem); font-weight: 500; }
+h3 { font-size: clamp(1.2rem, 1.8vw, 1.45rem); font-weight: 600; }
+h4 { font-size: 1.05rem; font-weight: 700; }
+p  { margin: 0 0 var(--s3); }
+p:last-child { margin-bottom: 0; }
+
+/* --- Utilitaires ---------------------------------------------------------- */
+.wrap { width: min(100% - 2.5rem, var(--wrap)); margin-inline: auto; }
+.section { padding: var(--s7) 0; }
+.section--sand { background: var(--paper-deep); }
+.section--sky  { background: var(--sand); }
+.section--sage {
+  position: relative; isolation: isolate;
+  background-size: cover; background-position: center;
+  color: rgba(255,255,255,.82);
+}
+.section--sage::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(9,17,46,.42); }
+.section--sage h2, .section--sage h3 { color: var(--white); }
+.section--sky h2, .section--sky h3 { color: var(--ink); }
+.lede { font-size: clamp(1.1rem, 1.5vw, 1.3rem); color: var(--ink-soft); max-width: 60ch; }
+.eyebrow {
+  font-family: var(--sans); font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--blue); margin: 0 0 var(--s2);
+}
+.section--sage .eyebrow { color: var(--blue-light); }
+
+/* Formes organiques ponctuelles, même vocabulaire que les blobs de Story/
+   Progression et les séparateurs vague : décor pur, jamais sous le texte. */
+.section--sand#mission { position: relative; isolation: isolate; }
+.section--sand#mission::before {
+  content: ""; display: none; position: absolute; z-index: -1;
+  width: min(44%, 380px); aspect-ratio: 1/1; top: -16%; right: -6%;
+  background: var(--blue-light);
+  border-radius: 44% 56% 37% 63% / 49% 40% 60% 51%;
+}
+@media (min-width: 900px) { .section--sand#mission::before { display: block; } }
+
+.section--sand#experiences { position: relative; isolation: isolate; }
+.section--sand#experiences::before {
+  content: ""; display: none; position: absolute; z-index: -1;
+  width: min(28%, 280px); aspect-ratio: 1/1; top: -9%; left: -5%;
+  background: var(--sand);
+  border-radius: 63% 37% 41% 59% / 44% 56% 38% 62%;
+}
+@media (min-width: 900px) { .section--sand#experiences::before { display: block; } }
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--ink); color: var(--white); padding: var(--s2) var(--s3);
+}
+.skip-link:focus { left: 0; }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+
+/* --- Révélation au scroll --------------------------------------------------
+   Visible par défaut (crawlers et JS désactivé voient tout le contenu,
+   playbook §1). Le JS ajoute .reveal--pre uniquement s'il s'exécute, donc
+   l'état "masqué en attente" n'existe jamais sans JavaScript. */
+.reveal.reveal--pre { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.reveal--pre.is-visible { opacity: 1; transform: none; }
+
+/* --- Boutons -------------------------------------------------------------- */
+.btn {
+  display: inline-block; font-family: var(--sans); font-weight: 700;
+  font-size: .92rem; letter-spacing: .04em; text-transform: uppercase; text-decoration: none;
+  padding: 1rem 2.2rem; border-radius: 999px; border: 2px solid transparent;
+  transition: transform .25s var(--ease), background-color .25s var(--ease),
+              color .25s var(--ease), box-shadow .25s var(--ease);
+}
+.btn--primary { background: var(--blue); color: var(--white); }
+.btn--primary:hover { background: var(--blue-deep); transform: translateY(-2px); box-shadow: var(--shadow); }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn--ghost:hover { background: var(--ink); color: var(--white); transform: translateY(-2px); }
+.btn--light { background: var(--white); color: var(--ink); }
+.btn--light:hover { background: var(--blue); color: var(--white); transform: translateY(-2px); }
+
+/* --- En-tête -------------------------------------------------------------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--paper-deep);
+  border-bottom: 1px solid rgba(21,25,27,.1);
+}
+.site-header__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s3); padding: var(--s2) 0; min-height: 84px;
+}
+.logo { display: inline-flex; align-items: center; text-decoration: none; }
+.logo img { width: 130px; height: auto; }
+.nav { display: flex; align-items: center; gap: var(--s3); }
+.nav a {
+  font-family: var(--sans); font-size: .95rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none; padding: .35rem 0; position: relative;
+  transition: background-color .3s var(--ease), color .3s var(--ease), transform .3s var(--ease);
+}
+.nav a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+  background: var(--blue); transform: scaleX(0); transform-origin: left;
+  transition: transform .3s var(--ease);
+}
+.nav a:hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); }
+.nav a:last-child {
+  background: var(--blue); color: var(--white); padding: .65rem 1.35rem;
+  border-radius: 999px; transition: background-color .25s var(--ease), transform .25s var(--ease);
+}
+.nav a:last-child:hover { background: var(--blue-deep); transform: translateY(-2px); }
+.nav a:last-child::after { display: none; }
+.nav-toggle {
+  display: none; background: none; border: 0; cursor: pointer;
+  padding: .6rem; color: var(--ink);
+}
+.nav-toggle svg { display: block; }
+
+/* Menu principal en formes organiques — chaque lien est un blob distinct,
+   même vocabulaire que les formes décoratives du reste du site, pour un
+   traitement original plutôt qu'une barre de liens classique. */
+@media (min-width: 900px) {
+  .nav { gap: .55rem; }
+  .nav a {
+    font-size: .82rem; padding: .58rem 1rem;
+    background: var(--blue-light);
+    color: var(--blue-deep);
+  }
+  .nav a::after { display: none; }
+  .nav a:nth-child(1) { border-radius: 63% 37% 54% 46% / 55% 43% 57% 45%; }
+  .nav a:nth-child(2) { border-radius: 42% 58% 61% 39% / 47% 40% 60% 53%; }
+  .nav a:nth-child(3) { border-radius: 58% 42% 39% 61% / 41% 58% 42% 59%; }
+  .nav a:nth-child(4) { border-radius: 37% 63% 46% 54% / 59% 46% 54% 41%; }
+  .nav a:nth-child(5) { border-radius: 52% 48% 40% 60% / 44% 57% 43% 56%; }
+  .nav a:nth-child(6) { border-radius: 61% 39% 48% 52% / 53% 41% 59% 47%; }
+  .nav a:nth-child(7) { border-radius: 46% 54% 58% 42% / 57% 45% 55% 43%; }
+  .nav a:last-child { border-radius: 55% 45% 62% 38% / 45% 60% 40% 55%; }
+  .nav a:hover, .nav a[aria-current="page"] { background: var(--blue); color: var(--white); }
+  .nav a:not(:last-child):hover { transform: translateY(-2px); }
+}
+
+@media (max-width: 900px) {
+  .nav-toggle { display: block; }
+  .nav {
+    position: absolute; inset: 100% 0 auto 0; background: var(--paper-deep);
+    flex-direction: column; align-items: stretch; gap: 0;
+    padding: var(--s2) 1.25rem var(--s4);
+    border-bottom: 1px solid rgba(21,25,27,.12);
+    box-shadow: var(--shadow);
+  }
+  .nav.nav--collapsed { display: none; }
+  .nav a { padding: .9rem 0; border-bottom: 1px solid rgba(21,25,27,.08); font-size: 1rem; }
+  .nav a::after { display: none; }
+  .nav a:last-child { background: none; color: var(--blue); padding: .9rem 0; border-radius: 0; }
+}
+
+/* --- Hero ------------------------------------------------------------------
+   Typographie surdimensionnée en majuscules, posée sur une photo plein
+   cadre. Un mot de la phrase existante peut être mis en valeur via
+   .hero__accent (même texte, traitement visuel seulement). */
+.hero { position: relative; isolation: isolate; min-height: min(92vh, 820px); display: flex; align-items: flex-end; }
+.hero--tall { min-height: min(92vh, 820px); }
+.hero__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(0deg, rgba(16,21,50,.86) 0%, rgba(16,21,50,.35) 42%, rgba(16,21,50,.08) 68%);
+}
+.hero__inner { padding: var(--s6) 0 var(--s6); color: var(--white); }
+.hero h1 {
+  color: var(--white); margin-bottom: var(--s3); max-width: 24ch;
+  text-shadow: 0 6px 30px rgba(0,0,0,.28);
+}
+.hero__accent { color: var(--blue-light); }
+.hero__tagline {
+  font-family: var(--sans); font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+  color: rgba(255,255,255,.92); max-width: 36ch; margin: 0 0 var(--s4); font-weight: 500;
+}
+.hero__cta { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.hero .eyebrow { color: var(--blue-light); }
+
+/* Héro de la page d'accueil (maquette Canva) : photo plein cadre sans voile,
+   titre serif clair en haut à gauche, bouton vert foncé en bas à gauche. */
+.hero--home { min-height: min(88vh, 800px); display: block; }
+.hero--home::before { display: none; }
+.hero--home .hero__media img { object-position: center 55%; }
+.hero-home__inner {
+  min-height: inherit; display: flex; flex-direction: column;
+  justify-content: flex-start; align-items: flex-start;
+  width: 100%; margin: 0; padding-inline: clamp(1.25rem, 3vw, 2.75rem);
+  padding-top: clamp(2.5rem, 6vw, 5rem); padding-bottom: clamp(2rem, 5vw, 4rem);
+  color: var(--white);
+}
+.hero-home__title { display: flex; align-items: flex-end; gap: clamp(.8rem, 2vw, 1.6rem); }
+.hero-home__title h1 {
+  font-family: var(--display); font-weight: 300;
+  font-size: clamp(3.4rem, 8vw, 6.6rem); line-height: 1; letter-spacing: 0;
+  text-transform: none; max-width: none; margin: 0; color: var(--white);
+  text-shadow: 0 2px 24px rgba(0,0,0,.25);
+}
+.hero-home__tagline {
+  font-family: var(--sans); font-size: clamp(1rem, 1.5vw, 1.3rem); font-weight: 400;
+  line-height: 1.5; color: rgba(255,255,255,.95); margin: var(--s2) 0 0;
+  text-shadow: 0 1px 14px rgba(0,0,0,.3);
+}
+.hero-home__cta {
+  margin-top: clamp(2.5rem, 5vw, 4rem); display: inline-flex; align-items: center; justify-content: center;
+  min-width: clamp(240px, 26vw, 380px); padding: .95rem 2.6rem; border-radius: 999px; background: #2e4a3d; color: #eef2ec;
+  font-family: var(--sans); font-size: 1.05rem; font-weight: 500; text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  transition: transform .25s var(--ease), background .25s var(--ease);
+}
+.hero-home__cta:hover { background: #24392f; transform: translateY(-2px); }
+
+/* Variante plus courte pour les héros de pages intérieures (Foundation,
+   Exploration, Immersion) — même traitement plein cadre que la page
+   d'accueil, pour que ces pages ne dénotent plus visuellement. */
+.hero--page { min-height: min(60vh, 560px); }
+.hero--page::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; z-index: 1;
+  height: clamp(40px, 6vw, 90px);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,38 C320,96 760,4 1080,46 C1260,70 1360,66 1440,50 L1440,100 L0,100 Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,38 C320,96 760,4 1080,46 C1260,70 1360,66 1440,50 L1440,100 L0,100 Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  pointer-events: none; background: var(--paper);
+}
+
+/* --- Formes organiques réutilisables ---------------------------------------
+   Même vocabulaire de blob que la page d'accueil, en classes génériques
+   pour habiller les sections des pages intérieures sans dupliquer le CSS
+   par identifiant à chaque fois. */
+.blob-accent { position: relative; isolation: isolate; }
+.blob-accent::before {
+  content: ""; display: none; position: absolute; z-index: -1;
+  width: min(38%, 320px); aspect-ratio: 1/1;
+  border-radius: 44% 56% 37% 63% / 49% 40% 60% 51%;
+}
+@media (min-width: 900px) { .blob-accent::before { display: block; } }
+.blob-accent--tl::before { top: -12%; left: -8%; }
+.blob-accent--tr::before { top: -12%; right: -8%; }
+.blob-accent--br::before { bottom: -12%; right: -8%; border-radius: 58% 42% 39% 61% / 41% 58% 42% 59%; }
+.blob-accent--bl::before { bottom: -12%; left: -8%; border-radius: 58% 42% 39% 61% / 41% 58% 42% 59%; }
+.blob-accent--sand::before { background: var(--sand); }
+.blob-accent--blue::before { background: var(--blue-light); }
+
+/* --- Fil d'ariane --------------------------------------------------------- */
+.breadcrumb { font-size: .82rem; padding: var(--s3) 0 0; font-family: var(--sans); font-weight: 600; }
+.breadcrumb ol { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; padding: 0; text-transform: uppercase; letter-spacing: .06em; }
+.breadcrumb li + li::before { content: "/"; margin-right: .5rem; color: var(--ink-mute); }
+.breadcrumb a { color: var(--ink-mute); text-decoration: none; }
+.breadcrumb [aria-current="page"] { color: var(--ink); }
+
+/* --- Bannière photo plein cadre (utilisée sur les pages intérieures) ------ */
+.page-hero { margin: 0; overflow: hidden; }
+.page-hero img { width: 100%; object-fit: cover; }
+
+/* --- Bandeau photo derrière du texte (philosophie, etc.) ------------------
+   Fond posé en CSS (attribut style, décoratif) : le contenu textuel reste
+   identique et lisible sans l'image. */
+.section--photo {
+  position: relative; isolation: isolate; background-size: cover; background-position: center;
+  color: var(--white);
+}
+.section--photo::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(16,21,50,.74); }
+.section--photo .eyebrow { color: var(--blue-light); }
+.section--photo h2, .section--photo h3 { color: var(--white); }
+.section--photo .lede { color: rgba(255,255,255,.88); }
+
+/* --- Mise en page en deux colonnes ---------------------------------------- */
+.split { position: relative; isolation: isolate; display: grid; gap: var(--s6); align-items: center; }
+@media (min-width: 900px) { .split { grid-template-columns: 1fr 1fr; } .split--narrow { grid-template-columns: 5fr 7fr; } }
+.split__media { position: relative; }
+.split__media img { position: relative; border-radius: var(--radius); width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+.split__media::before {
+  content: ""; position: absolute; z-index: -1;
+  width: 74%; aspect-ratio: 1/1; top: -9%; right: -9%;
+  background: var(--blue-light);
+  border-radius: 41% 59% 44% 56% / 38% 62% 37% 63%;
+}
+.split--flip .split__media { order: 2; }
+.split--flip .split__media::before { right: auto; left: -9%; }
+@media (max-width: 899px) { .split--flip .split__media { order: 0; } }
+@media (min-width: 900px) { .split__media { transform: translateY(-1.75rem); } }
+
+/* --- Section « bleed » : photo qui touche le bord de l'écran d'un côté,
+   texte contenu de l'autre. Utilisée pour "My story". Une forme organique
+   décalée derrière la photo et un panneau de texte qui chevauche le bord
+   de l'image reprennent le rythme "images décalées / texte par-dessus"
+   des références visuelles. --------------------------------------------- */
+.bleed-split {
+  position: relative; isolation: isolate;
+  display: grid; gap: var(--s5); align-items: stretch;
+}
+.bleed-split::before {
+  content: ""; display: none; position: absolute; z-index: -1;
+  width: min(58%, 460px); aspect-ratio: 1/1; top: -7%; left: 3%;
+  background: var(--sand);
+  border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+}
+.bleed-split--flip::before { left: auto; right: 3%; }
+.bleed-split__media { position: relative; overflow: hidden; min-height: 340px; }
+.bleed-split__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bleed-split__text { padding: var(--s5) var(--s3); display: flex; flex-direction: column; justify-content: center; }
+@media (min-width: 900px) {
+  .bleed-split::before { display: block; }
+  .bleed-split { grid-template-columns: 5fr 7fr; gap: 0; }
+  .bleed-split__media { min-height: 100%; }
+  .bleed-split__text {
+    padding: var(--s6) var(--s6) var(--s6) var(--s5); max-width: 46rem;
+    background: var(--paper); margin-left: -4rem; position: relative; z-index: 1;
+    box-shadow: var(--shadow); border-radius: var(--radius-lg);
+  }
+  .bleed-split--flip { grid-template-columns: 7fr 5fr; }
+  .bleed-split--flip .bleed-split__media { order: 2; }
+  .bleed-split--flip .bleed-split__text {
+    padding: var(--s6) var(--s5) var(--s6) var(--s6);
+    margin-left: 0; margin-right: -4rem;
+  }
+
+  /* Variante à trois colonnes : une photo de chaque côté, le texte flottant
+     au milieu et chevauchant les deux — reprend le même vocabulaire de
+     panneau flottant que la variante à deux colonnes. Hauteur plafonnée
+     (au lieu de suivre la longueur du texte) pour que les photos ne soient
+     pas étirées à l'excès dans le fil de la page d'accueil ; le texte,
+     s'il dépasse, défile dans son propre panneau. */
+  .bleed-split--triple {
+    grid-template-columns: 4fr 5fr 4fr; grid-template-rows: 1fr;
+    height: min(700px, 82vh);
+  }
+  .bleed-split--triple .bleed-split__media img { object-position: center 72%; }
+  .bleed-split--triple .bleed-split__text {
+    margin-right: -4rem; max-width: none;
+    justify-content: flex-start; overflow-y: auto; max-height: 100%;
+  }
+}
+
+/* --- Cartes d'offres — ratios asymétriques par carte ----------------------- */
+.cards { display: grid; gap: var(--s4); }
+@media (min-width: 760px)  { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .cards--3 { grid-template-columns: repeat(3, 1fr); } }
+.card {
+  display: flex; flex-direction: column; background: var(--white);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 4px 8px rgba(21,25,27,.08), 0 22px 48px rgba(21,25,27,.18); }
+.card__media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; transition: transform .5s var(--ease); }
+.card:hover .card__media img { transform: scale(1.04); }
+.card__media { overflow: hidden; }
+.card__media a { display: block; }
+@media (min-width: 1040px) {
+  .cards--3 .card:nth-of-type(2) { margin-top: var(--s5); }
+}
+
+/* Cartes "Signature experiences" : chaque photo prend la silhouette d'une
+   vraie planche — shortboard, fish, longboard — décalquée d'un visuel de
+   référence (clip-path SVG en objectBoundingBox, défini une fois dans le HTML). */
+/* Pas de cadre blanc : la planche flotte devant une forme organique, le texte
+   se pose directement sur le fond de la section. */
+.cards--3 .card { background: none; box-shadow: none; overflow: visible; }
+.cards--3 .card:hover { box-shadow: none; }
+.cards--3 .card__media { position: relative; isolation: isolate; overflow: visible; padding: var(--s3) 14% 0; }
+.cards--3 .card__media::before {
+  content: ""; position: absolute; z-index: -1; left: 1%; right: 1%; top: 26%; height: 58%;
+  background: var(--blue-light); border-radius: 44% 56% 37% 63% / 49% 40% 60% 51%;
+}
+.cards--3 .card:nth-of-type(1) .card__media::before { background: var(--blue-light); border-radius: 58% 42% 39% 61% / 41% 58% 42% 59%; transform: rotate(-6deg); }
+.cards--3 .card:nth-of-type(2) .card__media::before { background: var(--sand); border-radius: 44% 56% 37% 63% / 49% 40% 60% 51%; transform: rotate(5deg); top: 22%; height: 62%; }
+.cards--3 .card:nth-of-type(3) .card__media::before { background: var(--blue); border-radius: 63% 37% 41% 59% / 44% 56% 38% 62%; transform: rotate(-4deg); opacity: .85; }
+.cards--3 .card__body { align-items: center; text-align: center; }
+.cards--3 .card .btn { align-self: center; }
+.cards--3 .card__media img {
+  aspect-ratio: 5 / 12;
+  filter: drop-shadow(0 0 1.5px rgba(21,25,27,.55)) drop-shadow(0 16px 22px rgba(21,25,27,.28));
+}
+.cards--3 .card:nth-of-type(1) .card__media img { clip-path: url(#board-short); }
+.cards--3 .card:nth-of-type(2) .card__media img { clip-path: url(#board-fish); }
+.cards--3 .card:nth-of-type(3) .card__media img { clip-path: url(#board-long); }
+.card__body { padding: var(--s4); display: flex; flex-direction: column; flex: 1; }
+.card__body h3 { margin-bottom: .35rem; text-transform: uppercase; letter-spacing: -.01em; }
+.card__sub { font-size: .88rem; color: var(--ink-mute); margin: 0 0 var(--s2); font-weight: 600; }
+.card__price { font-family: var(--display); font-size: 1.1rem; color: var(--blue); font-weight: 800; margin: 0 0 var(--s2); }
+.card__body p:not(.card__sub):not(.card__price) { flex: 1; }
+.card .btn { align-self: flex-start; margin-top: var(--s3); }
+
+/* --- Grille de valeurs — liste numérotée éditoriale ------------------------ */
+.pillars { display: grid; gap: var(--s5) var(--s4); counter-reset: pillar; }
+@media (min-width: 640px)  { .pillars { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .pillars { grid-template-columns: repeat(4, 1fr); } }
+.pillar { border-top: 2px solid rgba(255,255,255,.25); padding-top: var(--s3); counter-increment: pillar; }
+.pillar::before {
+  content: counter(pillar, decimal-leading-zero); display: block; font-family: var(--display);
+  font-weight: 900; font-size: 1.6rem; color: var(--blue-light); margin-bottom: .6rem;
+}
+.pillar h3 { font-size: 1.2rem; margin-bottom: .6rem; text-transform: uppercase; }
+.pillar p { font-size: .98rem; margin: 0; color: rgba(255,255,255,.78); }
+
+/* --- Listes à puces stylées ----------------------------------------------- */
+.ticks { list-style: none; margin: 0 0 var(--s3); padding: 0; display: grid; gap: .7rem; }
+.ticks li { position: relative; padding-left: 1.9rem; }
+.ticks li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 1.05rem; height: .42rem; border-left: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue); transform: rotate(-45deg);
+}
+@media (min-width: 700px) { .ticks--2 { grid-template-columns: repeat(2, 1fr); column-gap: var(--s4); } }
+
+/* --- Tableau de tarifs ---------------------------------------------------- */
+.pricing { width: 100%; border-collapse: collapse; margin: 0 0 var(--s3); }
+.pricing__note { font-size: .95rem; color: var(--ink-mute); margin: 0 0 var(--s3); }
+.pricing caption { text-align: left; font-family: var(--display); font-weight: 800; font-size: 1.2rem; color: var(--ink); margin-bottom: var(--s2); text-transform: uppercase; }
+.pricing th, .pricing td { text-align: left; padding: .9rem 1rem; border-bottom: 1px solid rgba(21,25,27,.16); }
+.pricing th { font-family: var(--sans); font-weight: 700; color: var(--ink); }
+.pricing td:last-child { text-align: right; font-family: var(--display); font-weight: 800; color: var(--blue); white-space: nowrap; }
+
+/* --- Témoignages — carrousel horizontal ------------------------------------
+   Défilement natif (overflow-x + scroll-snap) : tout le texte reste dans le
+   DOM et lisible sans JS, y compris les avis repliés. Le JS n'ajoute que les
+   flèches de navigation, en confort supplémentaire (playbook §1). --------- */
+.reviews-head { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s2); flex-wrap: wrap; position: relative; isolation: isolate; }
+.reviews-head__badge { position: relative; z-index: 1; width: 64px; height: 64px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
+.reviews-head::before {
+  content: ""; position: absolute; z-index: -1;
+  width: 108px; height: 108px; left: -16px; top: 50%; transform: translateY(-50%);
+  background: var(--blue-light);
+  border-radius: 41% 59% 55% 45% / 51% 44% 56% 49%;
+}
+.reviews-carousel { position: relative; isolation: isolate; }
+.reviews-carousel::before {
+  content: ""; display: none; position: absolute; z-index: -1;
+  width: min(46%, 420px); aspect-ratio: 1/1; bottom: -16%; right: -6%;
+  background: var(--sand);
+  border-radius: 55% 45% 38% 62% / 44% 56% 51% 49%;
+}
+@media (min-width: 900px) { .reviews-carousel::before { display: block; } }
+.quotes {
+  display: flex; gap: var(--s4); overflow-x: auto; scroll-snap-type: x proximity;
+  padding-bottom: var(--s3); margin-bottom: calc(-1 * var(--s2)); scroll-padding-left: 1px;
+  scrollbar-width: thin; scrollbar-color: var(--blue) var(--paper-deep);
+}
+.quotes::-webkit-scrollbar { height: 7px; }
+.quotes::-webkit-scrollbar-track { background: var(--paper-deep); border-radius: 999px; }
+.quotes::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 999px; }
+.quote {
+  scroll-snap-align: start; flex: 0 0 min(85%, 400px);
+  margin: 0; display: flex; flex-direction: column; padding-top: var(--s3);
+  border-top: 2px solid rgba(21,25,27,.15);
+}
+@media (min-width: 700px) { .quote { flex-basis: min(46%, 420px); } }
+.carousel-nav { display: flex; gap: var(--s2); margin-top: var(--s3); }
+.carousel-nav__btn {
+  width: 46px; height: 46px; border-radius: 999px; border: 2px solid var(--ink);
+  background: transparent; color: var(--ink); padding: 0;
+  display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: background-color .25s var(--ease), color .25s var(--ease),
+              border-color .25s var(--ease), transform .25s var(--ease), opacity .25s var(--ease);
+}
+.carousel-nav__btn svg { display: block; }
+.carousel-nav__btn:hover:not(:disabled) { background: var(--blue); color: var(--white); border-color: var(--blue); transform: translateY(-2px); }
+.carousel-nav__btn:disabled { opacity: .3; cursor: default; }
+.quote blockquote { margin: 0 0 var(--s3); font-size: 1.08rem; }
+.quote blockquote p:first-child::before { content: "“"; font-family: var(--display); color: var(--blue); font-size: 2.6rem; line-height: 0; vertical-align: -.4rem; margin-right: .1rem; font-weight: 900; }
+.quote figcaption { font-family: var(--display); color: var(--ink); font-weight: 800; margin-top: auto; text-transform: uppercase; letter-spacing: .01em; font-size: .95rem; }
+.quote__stars { color: var(--blue); letter-spacing: .1em; display: block; font-size: .92rem; margin-top: .2rem; }
+.quote__more { background: none; border: 0; padding: 0; margin-top: .75rem; cursor: pointer;
+  font-family: var(--sans); font-weight: 700; color: var(--ink); text-decoration: underline; align-self: flex-start; }
+.quote__rest[hidden] { display: none; }
+
+/* --- FAQ ------------------------------------------------------------------ */
+.faq { max-width: 60rem; }
+.faq details {
+  border-bottom: 1px solid rgba(21,25,27,.18); padding: var(--s2) 0;
+}
+.faq summary {
+  font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--ink);
+  cursor: pointer; padding: .6rem 2rem .6rem 0; position: relative; list-style: none;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; position: absolute; right: 0; top: .45rem;
+  font-size: 1.8rem; font-weight: 300; line-height: 1; color: var(--blue); transition: transform .25s var(--ease);
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details > div { padding: 0 2rem .6rem 0; }
+
+/* --- Contact -------------------------------------------------------------- */
+.contact-grid { display: grid; gap: var(--s5); }
+@media (min-width: 900px) { .contact-grid { grid-template-columns: 5fr 6fr; } }
+.contact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
+.contact-list dt, .contact-list__label {
+  font-family: var(--sans); font-weight: 800; color: var(--ink);
+  font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+}
+.contact-list a { font-size: 1.15rem; font-family: var(--display); font-weight: 700; }
+
+/* --- Pied de page ----------------------------------------------------------
+   Fond sombre + photo décorative en arrière-plan (attribut style), pour que
+   la dernière impression reste photographique sans ajouter de section. */
+.site-footer {
+  position: relative; isolation: isolate; background: var(--blue-deep); color: rgba(255,255,255,.78);
+  padding: var(--s6) 0 var(--s4); background-size: cover; background-position: center;
+}
+.site-footer::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(28,42,99,.82) 0%, rgba(28,42,99,.93) 100%); }
+.site-footer h2, .site-footer h3 { color: var(--white); }
+.site-footer a { color: var(--white); text-decoration: none; }
+.site-footer a:hover { color: var(--blue-light); }
+.footer-grid { display: grid; gap: var(--s4); margin-bottom: var(--s5); }
+@media (min-width: 760px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
+.footer-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.footer-grid h3 { font-size: .92rem; font-family: var(--sans); font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase; margin-bottom: var(--s2); }
+.site-footer__bottom {
+  border-top: 1px solid rgba(255,255,255,.18); padding-top: var(--s3);
+  display: flex; flex-wrap: wrap; gap: var(--s2); justify-content: space-between;
+  font-size: .85rem;
+}
+
+/* --- Séparateurs "vague" entre sections -----------------------------------
+   Masque SVG (pas de couleur figée dedans) rempli par le token de couleur
+   de la section suivante, pour un raccord fluide façon vague plutôt qu'une
+   ligne droite entre les blocs de couleur. Purement décoratif. */
+.section--sage#why, .site-footer { position: relative; }
+.section--sage#why::after, .site-footer::after {
+  content: ""; position: absolute; left: 0; right: 0; height: clamp(46px, 7vw, 104px);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,38 C320,96 760,4 1080,46 C1260,70 1360,66 1440,50 L1440,100 L0,100 Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,38 C320,96 760,4 1080,46 C1260,70 1360,66 1440,50 L1440,100 L0,100 Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  pointer-events: none; z-index: 1;
+}
+.section--sage#why::after { bottom: -1px; background: var(--paper-deep); transform: scaleX(-1); }
+.site-footer::after { top: -1px; height: clamp(36px, 5vw, 72px); background: var(--paper); transform: scaleY(-1); }
+
+/* Entrée dans #why : un seul rendu de la photo, pas deux copies mises à
+   l'échelle indépendamment (ça créait un raccord visible). Le haut de la
+   section elle-même est découpé en vague via clip-path (SVG en début de
+   <body>, coordonnées relatives à sa propre boîte) et remonté par-dessus
+   la section précédente avec une marge négative. */
+.section--sage#why {
+  margin-top: clamp(-104px, -7vw, -46px);
+  clip-path: url(#why-wave-clip);
+}
+
+
+/* --- La philosophie : bande de photos + panneau bleu clair ------------------ */
+.philosophy__strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; background: var(--paper); }
+@media (min-width: 900px) { .philosophy__strip { grid-template-columns: repeat(6, 1fr); } }
+.philosophy__strip img { width: 100%; aspect-ratio: 11 / 20; object-fit: cover; }
+.philosophy__panel { background: var(--blue-light); padding: var(--s6) 0 9rem; }
+.philosophy__panel h2 {
+  font-weight: 400; font-size: clamp(2.4rem, 5vw, 4rem); color: var(--ink);
+  padding-bottom: var(--s3); margin-bottom: var(--s4); border-bottom: 1px solid var(--ink);
+}
+.philosophy__panel p { max-width: 74ch; color: var(--ink); margin-bottom: .55rem; }
+
+/* --- Progression : mention "forfait à part" ---------------------------------- */
+.progression__badge {
+  display: inline-block; background: var(--blue); color: var(--white); font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase; font-size: .9rem;
+  padding: .35rem 1rem; border-radius: 999px; margin-bottom: var(--s3);
+}
+
+/* --- Immersion : trois colonnes, exemples, tarifs ---------------------------- */
+.triptych { display: grid; gap: var(--s3); margin: var(--s4) 0; }
+@media (min-width: 800px) { .triptych { grid-template-columns: repeat(3, 1fr); } }
+.triptych__col { background: var(--white); border-radius: var(--radius-lg); padding: var(--s4); box-shadow: var(--shadow); }
+.triptych__col:nth-child(1) { border-radius: 42% 58% 12px 12px / 22% 22% 12px 12px; }
+.triptych__col:nth-child(3) { border-radius: 58% 42% 12px 12px / 22% 22% 12px 12px; }
+.triptych__col h3 {
+  font-family: var(--sans); font-size: 1.05rem; font-weight: 800; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--blue); margin-bottom: var(--s1);
+}
+.triptych__col p { margin: 0; }
+.examples { list-style: none; margin: var(--s3) 0; padding: 0; display: grid; gap: var(--s2); }
+.examples li { display: grid; gap: .1rem; padding-left: var(--s3); border-left: 3px solid var(--blue); }
+.examples strong { font-family: var(--sans); text-transform: uppercase; letter-spacing: .1em; font-weight: 800; color: var(--blue-deep); }
+.stack { display: grid; gap: var(--s5); }
+.callout { background: var(--white); border-radius: var(--radius-lg); padding: var(--s5); box-shadow: var(--shadow); }
+.callout h2 { font-size: clamp(1.4rem, 2.6vw, 2rem); text-transform: uppercase; letter-spacing: .04em; font-family: var(--sans); font-weight: 800; color: var(--blue); }
+.callout .lede { margin-bottom: var(--s3); }
+
+.split--stretch { align-items: stretch; }
+
+/* --- Bouton WhatsApp flottant ----------------------------------------------
+   Présent sur toutes les pages, en dehors de <main>/<footer> : ne dépend
+   d'aucune mise en page de section, toujours ancré au coin de l'écran. */
+.whatsapp-float {
+  position: fixed; z-index: 90; right: var(--s3); bottom: var(--s3);
+  width: 60px; height: 60px; border-radius: 999px;
+  background: #25d366; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 16px rgba(21,25,27,.28), 0 2px 4px rgba(21,25,27,.12);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.whatsapp-float:hover, .whatsapp-float:focus-visible {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 22px rgba(21,25,27,.32), 0 2px 6px rgba(21,25,27,.16);
+}
+.whatsapp-float svg { width: 30px; height: 30px; display: block; }
+
+/* --- Blog ------------------------------------------------------------------
+   Liste : mêmes cartes que le reste du site (.card), sans découpe planche —
+   la photo garde son cadre rectangulaire pour un ton plus éditorial.
+   Article : texte en colonne resserrée pour la lisibilité, listes numérotées
+   réutilisables (signes, spots, étapes) sur fond clair. */
+.cards--blog { }
+@media (min-width: 1040px) { .cards--blog { grid-template-columns: repeat(3, 1fr); } }
+.card__meta {
+  font-family: var(--sans); font-size: .8rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--blue); margin: 0 0 .5rem;
+}
+
+.article { max-width: 68ch; margin-inline: auto; }
+.article > h2 { margin-top: var(--s6); }
+.article > h2:first-child { margin-top: 0; }
+.article__meta {
+  font-family: var(--sans); font-size: .92rem; color: var(--ink-mute);
+  display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; margin: 0 0 var(--s3);
+}
+.article__meta span + span::before { content: "·"; margin-right: .6rem; }
+
+.numbered-list { list-style: none; margin: var(--s4) 0; padding: 0; display: grid; gap: var(--s4); counter-reset: step; }
+@media (min-width: 700px) { .numbered-list--2 { grid-template-columns: repeat(2, 1fr); } }
+.numbered-list li { counter-increment: step; padding-left: 3rem; position: relative; }
+.numbered-list li::before {
+  content: counter(step, decimal-leading-zero); position: absolute; left: 0; top: -.1rem;
+  font-family: var(--display); font-weight: 800; font-size: 1.3rem; color: var(--blue);
+}
+.numbered-list h3 { margin-bottom: .3rem; font-size: 1.15rem; }
+.numbered-list p { margin: 0; color: var(--ink-soft); }
+
+.article-cta { background: var(--paper-deep); border-radius: var(--radius-lg); padding: var(--s5); margin-top: var(--s6); }
+.article-cta h2 { margin-top: 0; }
+.article-cta .btn { margin-top: var(--s2); }
+
+.blog-related {
+  margin-top: var(--s6); padding-top: var(--s4); border-top: 1px solid rgba(21,25,27,.12);
+  font-family: var(--sans);
+}
+.blog-related h2 { font-size: 1.05rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); margin-bottom: var(--s2); }
+.blog-related ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.blog-related a { font-weight: 700; }
+
+/* --- Accueil : aperçu du blog, photos découpées en blobs ---------------------
+   Même vocabulaire de formes organiques que le menu et les accents de section ;
+   chaque photo a sa propre silhouette, avec une forme colorée décalée derrière. */
+.section#blog { position: relative; isolation: isolate; }
+.blog-blobs { display: grid; gap: var(--s5) var(--s4); margin-top: var(--s5); }
+@media (min-width: 760px) { .blog-blobs { grid-template-columns: repeat(3, 1fr); } }
+.blog-blob { display: flex; flex-direction: column; align-items: center; text-align: center; text-decoration: none; color: var(--ink); }
+.blog-blob__media { position: relative; isolation: isolate; display: block; width: 86%; margin-bottom: var(--s3); }
+.blog-blob__media::before {
+  content: ""; position: absolute; z-index: -1; inset: 6% -6% -6% 6%;
+  background: var(--blue-light); border-radius: var(--blob);
+  transition: transform .5s var(--ease);
+}
+.blog-blob__media img {
+  width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--blob);
+  transition: transform .5s var(--ease);
+}
+.blog-blob:nth-child(1) .blog-blob__media { --blob: 63% 37% 54% 46% / 55% 43% 57% 45%; }
+.blog-blob:nth-child(2) .blog-blob__media { --blob: 42% 58% 61% 39% / 47% 40% 60% 53%; }
+.blog-blob:nth-child(2) .blog-blob__media::before { background: var(--sand); inset: 6% 6% -6% -6%; }
+.blog-blob:nth-child(3) .blog-blob__media { --blob: 58% 42% 39% 61% / 41% 58% 42% 59%; }
+.blog-blob:nth-child(3) .blog-blob__media::before { background: var(--blue); opacity: .85; }
+.blog-blob:hover .blog-blob__media img { transform: scale(1.04); }
+.blog-blob:hover .blog-blob__media::before { transform: rotate(-6deg); }
+.blog-blob__title { font-family: var(--display); font-size: 1.25rem; font-weight: 600; line-height: 1.25; max-width: 24ch; }
+.blog-blob:hover .blog-blob__title { color: var(--blue); }
+.blog-blobs__more { text-align: center; margin-top: var(--s5); }
+
+/* Titre lu par les moteurs et lecteurs d'écran, invisible à l'écran. */
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ==========================================================================
+   Mobile — ergonomie (≤ 700px)
+   Le texte complet reste dans le HTML : le JS (main.js) ne fait que replier
+   (« See more ») et transformer certains blocs en menus déroulants. Sans JS,
+   tout est affiché. Aucune de ces règles ne touche le rendu desktop.
+   ========================================================================== */
+
+/* « See more » : bouton ajouté par le JS après un bloc [data-more] */
+.more-btn {
+  display: none; margin-top: var(--s2); padding: .55rem 1.1rem; border-radius: 999px;
+  border: 2px solid var(--blue); background: none; color: var(--blue);
+  font-family: var(--sans); font-weight: 700; font-size: .85rem; letter-spacing: .04em;
+  text-transform: uppercase; cursor: pointer; align-self: flex-start;
+}
+.more-btn::after { content: " \2193"; }
+.more.is-open + .more-btn::after { content: " \2191"; }
+
+/* Menus déroulants : chaque [data-acc] devient titre-bouton + panneau */
+.acc-btn {
+  font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; text-align: inherit;
+  background: none; border: 0; padding: 0; margin: 0; width: 100%; cursor: default;
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+}
+.acc-btn__icon { display: none; }
+
+@media (max-width: 700px) {
+  /* Rythme et typographie */
+  .section { padding: var(--s5) 0; }
+  .eyebrow { font-size: 1rem; letter-spacing: .1em; margin-bottom: .6rem; }
+  h2 { font-size: 1.75rem; }
+  .lede { font-size: 1.05rem; }
+  body { font-size: 1.05rem; }
+  .split, .split--narrow { gap: var(--s4); }
+  .hero__tagline { font-size: 1rem; }
+
+  /* See more */
+  .more:not(.is-open):not(.more--short) {
+    max-height: var(--more-h, 260px); overflow: hidden;
+    -webkit-mask-image: linear-gradient(#000 55%, transparent);
+    mask-image: linear-gradient(#000 55%, transparent);
+  }
+  .more:not(.more--short) + .more-btn { display: inline-block; }
+
+  /* Menus déroulants */
+  [data-acc].acc-ready { border-top: 1px solid rgba(21,25,27,.14); padding-top: 0; }
+  [data-acc].acc-ready .acc-btn { cursor: pointer; padding: 1rem 0; }
+  .acc-btn__icon {
+    display: block; flex: none; width: 1.6rem; height: 1.6rem; border-radius: 999px;
+    background: var(--blue-light); position: relative; transition: transform .3s var(--ease);
+  }
+  .acc-btn__icon::before, .acc-btn__icon::after {
+    content: ""; position: absolute; left: 50%; top: 50%; width: .7rem; height: 2px;
+    background: var(--blue-deep); transform: translate(-50%, -50%);
+  }
+  .acc-btn__icon::after { transform: translate(-50%, -50%) rotate(90deg); transition: opacity .3s var(--ease); }
+  [data-acc].is-open .acc-btn__icon::after { opacity: 0; }
+  [data-acc].acc-ready:not(.is-open) .acc-panel { display: none; }
+  [data-acc].acc-ready .acc-panel { padding-bottom: 1rem; }
+  .site-footer [data-acc].acc-ready { border-top-color: rgba(255,255,255,.18); }
+  .site-footer [data-acc] .acc-btn__icon { background: rgba(255,255,255,.14); }
+  .site-footer [data-acc] .acc-btn__icon::before, .site-footer [data-acc] .acc-btn__icon::after { background: var(--white); }
+  .section--sage [data-acc].acc-ready { border-top-color: rgba(255,255,255,.25); }
+
+  /* Piliers « Why Lean Forward » en liste compacte */
+  .pillars { gap: 0; margin-top: var(--s3) !important; }
+  .pillar { border-top: 0; padding-top: 0; }
+  .pillar::before { display: none; }
+  .pillar h3 { margin: 0; font-size: 1.05rem; }
+
+  /* Carrousels à glisser : planches, blobs du blog, bande de photos */
+  .cards--3, .blog-blobs {
+    display: flex; gap: var(--s3); overflow-x: auto; scroll-snap-type: x mandatory;
+    margin-inline: -1.25rem; padding: 0 1.25rem var(--s2); scroll-padding-inline: 1.25rem;
+    scrollbar-width: none; margin-top: var(--s4) !important;
+  }
+  .cards--3::-webkit-scrollbar, .blog-blobs::-webkit-scrollbar, .philosophy__strip::-webkit-scrollbar { display: none; }
+  .cards--3 > .card { flex: 0 0 78%; scroll-snap-align: start; }
+  .cards--3 .card__media { padding: var(--s2) 20% 0; }
+  .cards--3 .card__body { padding: var(--s3) var(--s2) 0; }
+  .blog-blobs > .blog-blob { flex: 0 0 70%; scroll-snap-align: start; }
+  .blog-blob__title { font-size: 1.1rem; }
+  .blog-blobs__more { margin-top: var(--s3); }
+  .philosophy__strip {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  }
+  .philosophy__strip picture { flex: 0 0 40%; scroll-snap-align: start; }
+  .philosophy__strip img { aspect-ratio: 3 / 4; }
+  .philosophy__panel { padding: var(--s5) 0 7rem; }
+  .philosophy__panel h2 { font-size: 2.2rem; margin-bottom: var(--s3); }
+  .swipe-hint {
+    display: block; font-family: var(--sans); font-size: .8rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: .5rem;
+  }
+
+  /* Photos moins envahissantes */
+  .bleed-split__media--right { display: none; }
+  .bleed-split { gap: 0; }
+  .bleed-split__media { min-height: 260px; }
+  .bleed-split__text { padding: var(--s4) 1.25rem; }
+  .split__media img { aspect-ratio: 4 / 3; }
+  .split__media::before { display: none; }
+  .contact-grid figure img { aspect-ratio: 4 / 3; object-fit: cover; object-position: center 25%; }
+
+  /* Pied de page : marque en haut, colonnes repliées */
+  .site-footer .footer-grid { gap: var(--s2); }
+  .site-footer [data-acc] h3 { margin: 0; }
+}
+.swipe-hint { display: none; }
+@media (max-width: 700px) { .swipe-hint { display: block; } }
+@media (max-width: 700px) {
+  /* Fonds photo : recadrages verticaux dédiés au téléphone (le style en ligne sert le paysage 1920/2400px) */
+  #why {
+    background-image: url(../assets/img/why-playa-m.jpg) !important;
+    background-image: image-set(url(../assets/img/why-playa-m.avif) type("image/avif"), url(../assets/img/why-playa-m.webp) type("image/webp"), url(../assets/img/why-playa-m.jpg) type("image/jpeg")) !important;
+  }
+  .site-footer[style*="closing-band"] {
+    background-image: url(../assets/img/closing-band-m.jpg) !important;
+    background-image: image-set(url(../assets/img/closing-band-m.avif) type("image/avif"), url(../assets/img/closing-band-m.webp) type("image/webp"), url(../assets/img/closing-band-m.jpg) type("image/jpeg")) !important;
+  }
+}
+/* Bloc replié suivi d'un bouton : garder l'espace sous le dernier paragraphe */
+.more--gap > p:last-child { margin-bottom: var(--s3); }
+@media (max-width: 700px) {
+  /* Accueil : remonter titre et bouton pour dégager la tête de Mateo */
+  .hero-home__inner { padding-top: 1.25rem; }
+  .hero-home__cta { margin-top: 1.25rem; padding-block: .85rem; }
+  .hero-home__title h1 { font-size: 2.9rem; }
+  .hero-home__tagline { margin-top: .75rem; }
+}
+@media (max-width: 700px) {
+  /* Zones de tap confortables (≥ 44px de haut) pour les liens texte */
+  .footer-grid ul { gap: 0; }
+  .footer-grid li a, .footer-grid p > a { display: inline-block; padding-block: .7rem; }
+  .footer-grid p:has(> a) { margin-bottom: 0; }
+  .breadcrumb a { display: inline-block; padding-block: .8rem; }
+  .breadcrumb { padding-top: .25rem; }
+  .contact-list a { display: inline-block; padding-block: .6rem; }
+  .quote__more { padding-block: .8rem; margin-top: 0; }
+}
