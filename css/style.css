@@ -859,9 +859,12 @@ p:last-child { margin-bottom: 0; }
 /* Bloc replié suivi d'un bouton : garder l'espace sous le dernier paragraphe */
 .more--gap > p:last-child { margin-bottom: var(--s3); }
 @media (max-width: 700px) {
-  /* Accueil : remonter titre et bouton pour dégager la tête de Mateo */
-  .hero-home__inner { padding-top: 1.25rem; }
-  .hero-home__cta { margin-top: 1.25rem; padding-block: .85rem; }
+  /* Accueil : titre dans le ciel en haut, bouton collé en bas du héro,
+     photo calée en haut : la tête de Mateo reste libre quelle que soit la hauteur de l'écran */
+  .hero--home .hero__media img { object-position: center top; }
+  .hero-home__inner { padding-top: 1.25rem; padding-bottom: 1.5rem; }
+  .hero-home__top { margin-bottom: 1.25rem; }
+  .hero-home__cta { margin-top: auto; padding-block: .85rem; max-width: 100%; }
   .hero-home__title h1 { font-size: 2.9rem; }
   .hero-home__tagline { margin-top: .75rem; }
 }
